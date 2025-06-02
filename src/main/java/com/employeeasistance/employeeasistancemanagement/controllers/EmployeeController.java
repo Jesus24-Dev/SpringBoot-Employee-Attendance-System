@@ -44,17 +44,17 @@ public class EmployeeController {
     }
     
     @PostMapping
-    public ResponseEntity<String> createEmployee(@RequestBody EmployeeRequest employee){
-        employeeService.createEmployee(employee.getName(), employee.getEmail(), employee.getPosition());
+    public ResponseEntity<Employee> createEmployee(@RequestBody EmployeeRequest employee){
+        Employee employeeCreated = employeeService.createEmployee(employee.getName(), employee.getEmail(), employee.getPosition());
         
-        return ResponseEntity.status(HttpStatus.CREATED).body("employee created");
+        return ResponseEntity.status(HttpStatus.CREATED).body(employeeCreated);
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateEmployee(@PathVariable UUID id, @RequestBody EmployeeRequest employee){
-        employeeService.updateEmployee(id, employee.getName(), employee.getEmail(), employee.getPosition());
+    public ResponseEntity<Employee> updateEmployee(@PathVariable UUID id, @RequestBody EmployeeRequest employee){
+        Employee employeeUpdated = employeeService.updateEmployee(id, employee.getName(), employee.getEmail(), employee.getPosition());
         
-        return ResponseEntity.ok("employee updated");
+        return ResponseEntity.ok(employeeUpdated);
     }
     
     @DeleteMapping("/{id}")
