@@ -1,6 +1,7 @@
 
 package com.employeeasistance.employeeasistancemanagement.controllers;
 
+import com.employeeasistance.employeeasistancemanagement.dtos.EmployeeRequest;
 import com.employeeasistance.employeeasistancemanagement.models.Employee;
 import com.employeeasistance.employeeasistancemanagement.services.EmployeeService;
 import java.util.List;
@@ -43,14 +44,14 @@ public class EmployeeController {
     }
     
     @PostMapping
-    public ResponseEntity<String> createEmployee(@RequestBody Employee employee){
+    public ResponseEntity<String> createEmployee(@RequestBody EmployeeRequest employee){
         employeeService.createEmployee(employee.getName(), employee.getEmail(), employee.getPosition());
         
         return ResponseEntity.status(HttpStatus.CREATED).body("employee created");
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateEmployee(@PathVariable UUID id, @RequestBody Employee employee){
+    public ResponseEntity<String> updateEmployee(@PathVariable UUID id, @RequestBody EmployeeRequest employee){
         employeeService.updateEmployee(id, employee.getName(), employee.getEmail(), employee.getPosition());
         
         return ResponseEntity.ok("employee updated");
