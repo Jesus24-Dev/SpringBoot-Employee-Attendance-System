@@ -30,7 +30,7 @@ public class EmployeeService {
         return employeeFounded;
     }
     
-    public void createEmployee(String name, String email, EmployeePosition position){
+    public Employee createEmployee(String name, String email, EmployeePosition position){
         Employee employeeCreated = new Employee();
         
         employeeCreated.setName(name);
@@ -38,17 +38,17 @@ public class EmployeeService {
         employeeCreated.setPosition(position);
         employeeCreated.setIsActive(true);
         
-        employeeRepository.save(employeeCreated);
+        return employeeRepository.save(employeeCreated);
     }
     
-    public void updateEmployee(UUID id, String name, String email, EmployeePosition position){
+    public Employee updateEmployee(UUID id, String name, String email, EmployeePosition position){
         Employee employeeFounded = employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
         
         employeeFounded.setName(name);
         employeeFounded.setEmail(email);
         employeeFounded.setPosition(position);  
-        employeeRepository.save(employeeFounded);
+        return employeeRepository.save(employeeFounded);
     }
     
     public void deleteEmployee(UUID id){
