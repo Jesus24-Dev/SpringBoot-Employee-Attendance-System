@@ -5,10 +5,13 @@ import com.employeeasistance.employeeasistancemanagement.enums.EmployeePosition;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,6 +29,9 @@ public class Employee {
     private EmployeePosition position;
     
     private boolean isActive;
+    
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
+    private List<Assistance> employeeAssistances;
 
     public Employee() {
     }
@@ -76,6 +82,14 @@ public class Employee {
 
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
+    }
+
+    public List<Assistance> getEmployeeAssistances() {
+        return employeeAssistances;
+    }
+
+    public void setEmployeeAssistances(List<Assistance> employeeAssistances) {
+        this.employeeAssistances = employeeAssistances;
     }
     
     
