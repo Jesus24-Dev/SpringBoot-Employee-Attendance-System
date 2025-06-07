@@ -5,6 +5,7 @@ import com.employeeasistance.employeeasistancemanagement.dtos.AssistanceRequest;
 import com.employeeasistance.employeeasistancemanagement.dtos.AssistanceResponse;
 import com.employeeasistance.employeeasistancemanagement.models.Assistance;
 import com.employeeasistance.employeeasistancemanagement.services.AssistanceService;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
@@ -32,10 +33,16 @@ public class AssistanceController {
     
     @GetMapping("/{employeeId}")
     public ResponseEntity<List<AssistanceResponse>> getAllAsistancesByEmployee(@PathVariable UUID employeeId){
-        List<Assistance> employeeAssistances = assistanceService.getAllAsistancesByEmployee(employeeId);
-        
-        
+        List<Assistance> employeeAssistances = assistanceService.getAllAssistancesByEmployee(employeeId);       
         List<AssistanceResponse> assistancesResponse = employeeAssistances.stream().map(AssistanceResponse::new).toList();
+        return ResponseEntity.ok(assistancesResponse);
+    }
+    
+    @GetMapping("/date/{date}")
+    public ResponseEntity<List<AssistanceResponse>> getAllAssistancesByDate(@PathVariable LocalDate date){
+        List<Assistance> assistancesByDate = assistanceService.getAllAssistancesByDate(date);
+        List<AssistanceResponse> assistancesResponse = assistancesByDate.stream().map(AssistanceResponse::new).toList();
+        
         return ResponseEntity.ok(assistancesResponse);
     }
     
