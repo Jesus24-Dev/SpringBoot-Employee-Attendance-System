@@ -8,14 +8,14 @@ import java.util.UUID;
 
 public class AssistanceResponse {
     private final UUID id;
-    private final UUID employeeId;
+    private final EmployeeMinResponse employee;
     private final LocalDate date;
     private final LocalTime entryTime;    
     private final LocalTime departureTime;
     
     public AssistanceResponse(Assistance assistance){
         this.id = assistance.getId();
-        this.employeeId = assistance.getEmployee().getId();
+        this.employee = new EmployeeMinResponse(assistance.getEmployee());
         this.date = assistance.getDate();
         this.entryTime = assistance.getEntryTime();
         this.departureTime = assistance.getDepartureTime();
@@ -25,8 +25,8 @@ public class AssistanceResponse {
         return id;
     }
 
-    public UUID getEmployeeId() {
-        return employeeId;
+    public EmployeeMinResponse getEmployee() {
+        return employee;
     }
 
     public LocalDate getDate() {
