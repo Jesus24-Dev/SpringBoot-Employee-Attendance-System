@@ -26,11 +26,16 @@ public class AssistanceService {
         return assistanceRepository.findAll();
     }
     
-    public List<Assistance> getAllAsistancesByEmployee(UUID employeeId){
+    public List<Assistance> getAllAssistancesByEmployee(UUID employeeId){
         Employee employeeFounded = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found: " + employeeId));
         
         return employeeFounded.getEmployeeAssistances();
+    }
+    
+    public List<Assistance> getAllAssistancesByDate(LocalDate date){
+        List<Assistance> assistancesFounded = assistanceRepository.findByDate(date);
+        return assistancesFounded;
     }
     
     public Assistance createAssistance(UUID employeeId, LocalDate date, LocalTime entryTime, LocalTime departureTime){
