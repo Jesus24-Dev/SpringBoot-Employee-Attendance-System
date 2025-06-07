@@ -33,7 +33,7 @@ public class AssistanceService {
         return employeeFounded.getEmployeeAssistances();
     }
     
-    public void createAssistance(UUID employeeId, LocalDate date, LocalTime entryTime, LocalTime departureTime){
+    public Assistance createAssistance(UUID employeeId, LocalDate date, LocalTime entryTime, LocalTime departureTime){
         Employee employeeFounded = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found: " + employeeId));
         
@@ -42,12 +42,13 @@ public class AssistanceService {
         newAssistance.setEmployee(employeeFounded);
         newAssistance.setDate(date);
         newAssistance.setEntryTime(entryTime);
-        newAssistance.setDepartureTime(departureTime);
+        newAssistance.setDepartureTime(departureTime);    
         
-        assistanceRepository.save(newAssistance);
+        assistanceRepository.save(newAssistance);       
+        return newAssistance;
     }
     
-    public void updateAssistance(UUID id, LocalDate date, LocalTime entryTime, LocalTime departureTime){
+    public Assistance updateAssistance(UUID id, LocalDate date, LocalTime entryTime, LocalTime departureTime){
         Assistance assistanceFounded = assistanceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
         
@@ -56,6 +57,17 @@ public class AssistanceService {
         assistanceFounded.setDepartureTime(departureTime);
         
         assistanceRepository.save(assistanceFounded);
+        
+        return assistanceFounded;
+    }
+    
+    public Assistance setDepartureTime(UUID id, LocalTime departureTime){
+        Assistance assistanceFounded = assistanceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
+        
+        assistanceFounded.setDepartureTime(departureTime);
+        
+        return assistanceFounded;
     }
     
     public void deleteAssistance(UUID id){
