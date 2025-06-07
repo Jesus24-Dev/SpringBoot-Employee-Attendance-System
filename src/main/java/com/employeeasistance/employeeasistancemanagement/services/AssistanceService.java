@@ -66,6 +66,7 @@ public class AssistanceService {
                 .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
         
         assistanceFounded.setDepartureTime(departureTime);
+        assistanceRepository.save(assistanceFounded);
         
         return assistanceFounded;
     }
