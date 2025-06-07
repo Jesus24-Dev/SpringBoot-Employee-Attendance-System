@@ -42,6 +42,10 @@ public class AssistanceService {
         Employee employeeFounded = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found: " + employeeId));
         
+        if(assistanceRepository.existsByDateAndEmployee(date, employeeFounded)){
+            throw new RuntimeException("There is a register with for this employee today");
+        }
+        
         Assistance newAssistance = new Assistance();
         
         newAssistance.setEmployee(employeeFounded);
