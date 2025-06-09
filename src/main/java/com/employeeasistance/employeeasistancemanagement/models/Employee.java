@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import java.util.UUID;
@@ -32,16 +33,20 @@ public class Employee {
     
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Assistance> employeeAssistances;
+    
+    @OneToOne(mappedBy="employee")
+    private User user;
 
     public Employee() {
     }
 
-    public Employee(UUID id, String name, String email, EmployeePosition position, boolean isActive) {
+    public Employee(UUID id, String name, String email, EmployeePosition position, boolean isActive, User user) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.position = position;
         this.isActive = isActive;
+        this.user = user;
     }
 
     public UUID getId() {
@@ -90,6 +95,14 @@ public class Employee {
 
     public void setEmployeeAssistances(List<Assistance> employeeAssistances) {
         this.employeeAssistances = employeeAssistances;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
     
