@@ -28,31 +28,16 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable());
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/public/**", "/auth/**").permitAll()
+                .requestMatchers("/auth/**", "/public/**", "/user/**").permitAll()
                 .anyRequest().authenticated());
         http.sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.userDetailsService(userDetailsService);
-        http.formLogin(form -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/auth")
-                .defaultSuccessUrl("/home")
-                .failureUrl("/login?error=true")
-                .permitAll());
-        http.logout(logout -> logout
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
-                .invalidateHttpSession(true)
-                .permitAll());
-        http.exceptionHandling(ex -> ex
-            .accessDeniedPage("/access-denied")
-            );
-        
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-                
+
         return http.build();
     }
-    
+  
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
