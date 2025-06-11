@@ -2,6 +2,7 @@
 package com.employeeasistance.employeeasistancemanagement.controllers;
 
 import com.employeeasistance.employeeasistancemanagement.dtos.EmployeeRequest;
+import com.employeeasistance.employeeasistancemanagement.dtos.EmployeeResponse;
 import com.employeeasistance.employeeasistancemanagement.models.Employee;
 import com.employeeasistance.employeeasistancemanagement.services.EmployeeService;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,36 +31,40 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public ResponseEntity<List<Employee>> getAllEmployees(){
+    public ResponseEntity<List<EmployeeResponse>> getAllEmployees(){
         List<Employee> employees = employeeService.getAllEmployees();
         
-        return ResponseEntity.ok(employees);
+        return ResponseEntity.ok(employees.stream().map(EmployeeResponse::new).toList());
     }
-    
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable UUID id){
+    public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable UUID id){
         Employee employee = employeeService.getEmployeeById(id);
                 
-        return ResponseEntity.ok(employee);
+        return ResponseEntity.ok(new EmployeeResponse(employee));
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PostMapping
-    public ResponseEntity<Employee> createEmployee(@RequestBody EmployeeRequest employee){
+    public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody EmployeeRequest employee){
         Employee employeeCreated = employeeService.createEmployee(employee.getName(), employee.getEmail(), employee.getPosition());
         
-        return ResponseEntity.status(HttpStatus.CREATED).body(employeeCreated);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new EmployeeResponse(employeeCreated));
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable UUID id, @RequestBody EmployeeRequest employee){
+    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable UUID id, @RequestBody EmployeeRequest employee){
         Employee employeeUpdated = employeeService.updateEmployee(id, employee.getName(), employee.getEmail(), employee.getPosition());
         
-        return ResponseEntity.ok(employeeUpdated);
+        return ResponseEntity.ok(new EmployeeResponse(employeeUpdated));
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> updateEmployee(@PathVariable UUID id){
+    public ResponseEntity<?> updateEmployee(@PathVariable UUID id){
         employeeService.deleteEmployee(id);
         
         return ResponseEntity.noContent().build();
