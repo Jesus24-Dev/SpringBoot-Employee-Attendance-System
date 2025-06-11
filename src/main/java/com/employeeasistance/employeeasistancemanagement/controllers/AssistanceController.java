@@ -12,6 +12,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ public class AssistanceController {
         this.assistanceService = assistanceService;
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @GetMapping("/{employeeId}")
     public ResponseEntity<List<AssistanceResponse>> getAllAsistancesByEmployee(@PathVariable UUID employeeId){
         List<Assistance> employeeAssistances = assistanceService.getAllAssistancesByEmployee(employeeId);       
@@ -38,6 +40,7 @@ public class AssistanceController {
         return ResponseEntity.ok(assistancesResponse);
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @GetMapping("/date/{date}")
     public ResponseEntity<List<AssistanceResponse>> getAllAssistancesByDate(@PathVariable LocalDate date){
         List<Assistance> assistancesByDate = assistanceService.getAllAssistancesByDate(date);
@@ -46,6 +49,7 @@ public class AssistanceController {
         return ResponseEntity.ok(assistancesResponse);
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PostMapping
     public ResponseEntity<Assistance> createAssistance(@RequestBody AssistanceRequest assistance){
         Assistance assistanceCreated = assistanceService.createAssistance(assistance.getEmployeeId(), assistance.getDate(), assistance.getEntryTime(), assistance.getDepartureTime());
@@ -53,6 +57,7 @@ public class AssistanceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(assistanceCreated);
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PatchMapping("/departure/{id}")
     public ResponseEntity<AssistanceResponse> setDepartureTime(@PathVariable UUID id, @RequestBody LocalTime departureTime){
         Assistance assistanceDepartureUpdated = assistanceService.setDepartureTime(id, departureTime);
