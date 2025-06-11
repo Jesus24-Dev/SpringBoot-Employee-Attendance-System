@@ -33,7 +33,6 @@ public class User implements UserDetails{
     private UserRoles role;
     
     @OneToOne(mappedBy = "user")
-    @JoinColumn(name = "employee_id", referencedColumnName = "id")
     private Employee employee;
 
     public User() {
