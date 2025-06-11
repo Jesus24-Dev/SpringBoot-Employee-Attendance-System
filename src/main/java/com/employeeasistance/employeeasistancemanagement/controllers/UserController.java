@@ -3,7 +3,6 @@ package com.employeeasistance.employeeasistancemanagement.controllers;
 
 import com.employeeasistance.employeeasistancemanagement.dtos.UserRequest;
 import com.employeeasistance.employeeasistancemanagement.dtos.UserResponse;
-import com.employeeasistance.employeeasistancemanagement.enums.UserRoles;
 import com.employeeasistance.employeeasistancemanagement.models.User;
 import com.employeeasistance.employeeasistancemanagement.services.UserService;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +31,7 @@ public class UserController {
         this.userService = userService;
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers(){
         return ResponseEntity.ok(userService.getAllUsers().
@@ -39,6 +40,7 @@ public class UserController {
                 toList());
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable UUID id){
         User user = userService.getUserById(id);
@@ -53,6 +55,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse(userCreated));
     }
     
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id, @RequestBody UserRequest request){
         User userUpdated = userService.updateUser(id, request.getUsername(), request.getPassword(), request.getRole());
@@ -60,6 +63,7 @@ public class UserController {
         return ResponseEntity.ok(new UserResponse(userUpdated));
     }
     
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable UUID id){
         userService.deleteUser(id);
