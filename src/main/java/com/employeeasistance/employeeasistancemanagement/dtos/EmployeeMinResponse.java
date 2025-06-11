@@ -8,11 +8,13 @@ import java.util.UUID;
 public class EmployeeMinResponse {
     private final UUID id;
     private final String name;
+    private final String email;
     private final EmployeePosition position;
     
     public EmployeeMinResponse(Employee employee){
         this.id = employee.getId();
         this.name = employee.getName();
+        this.email = employee.getEmail();
         this.position = employee.getPosition();
     }
 
@@ -28,5 +30,7 @@ public class EmployeeMinResponse {
         return position;
     }
     
-    
+    public String getEmail(){
+        return email;
+    }
 }
