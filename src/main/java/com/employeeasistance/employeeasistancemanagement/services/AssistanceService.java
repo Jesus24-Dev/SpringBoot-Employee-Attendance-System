@@ -39,7 +39,7 @@ public class AssistanceService {
     }
     
     public List<Assistance> getAllAssistancesBetweenDates(LocalDate startDate, LocalDate finishDate){
-        List<Assistance> assistancesFounded = assistanceRepository.findAssistanceBetweenDates(startDate, finishDate);
+        List<Assistance> assistancesFounded = assistanceRepository.findByDateBetween(startDate, finishDate);
         
         return assistancesFounded;
     }
