@@ -5,6 +5,7 @@ import com.employeeasistance.employeeasistancemanagement.dtos.UserRequest;
 import com.employeeasistance.employeeasistancemanagement.dtos.UserResponse;
 import com.employeeasistance.employeeasistancemanagement.models.User;
 import com.employeeasistance.employeeasistancemanagement.services.UserService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class UserController {
     }
     
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest request){
+    public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest request){
         User userCreated = userService.createUser(request.getUsername(), request.getPassword(), request.getRole());
         
         return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse(userCreated));
@@ -57,7 +58,7 @@ public class UserController {
     
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id, @RequestBody UserRequest request){
+    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id, @RequestBody @Valid UserRequest request){
         User userUpdated = userService.updateUser(id, request.getUsername(), request.getPassword(), request.getRole());
         
         return ResponseEntity.ok(new UserResponse(userUpdated));
