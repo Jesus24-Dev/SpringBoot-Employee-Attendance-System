@@ -10,6 +10,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.employeeasistance.employeeasistancemanagement.enums.UserRoles;
+import jakarta.persistence.Column;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,7 +29,9 @@ public class User implements UserDetails{
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     
+    @Column(unique = true)
     private String username;
+   
     private String password;
     
     @Enumerated(EnumType.STRING)

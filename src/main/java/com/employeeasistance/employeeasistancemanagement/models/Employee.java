@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.employeeasistance.employeeasistancemanagement.enums.EmployeePosition;
+import jakarta.persistence.Column;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,6 +28,8 @@ public class Employee {
     private UUID id;
     
     private String name;
+
+    @Column(unique = true)
     private String email;
     
     @Enumerated(EnumType.STRING)
