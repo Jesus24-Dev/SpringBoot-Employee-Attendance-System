@@ -34,7 +34,13 @@ public class AssistanceService {
     }
     
     public List<Assistance> getAllAssistancesByDate(LocalDate date){
-        List<Assistance> assistancesFounded = assistanceRepository.findByDate(date);
+        List<Assistance> assistancesFounded = assistanceRepository.findByDate(date);             
+        return assistancesFounded;
+    }
+    
+    public List<Assistance> getAllAssistancesBetweenDates(LocalDate startDate, LocalDate finishDate){
+        List<Assistance> assistancesFounded = assistanceRepository.findAssistanceBetweenDates(startDate, finishDate);
+        
         return assistancesFounded;
     }
     
