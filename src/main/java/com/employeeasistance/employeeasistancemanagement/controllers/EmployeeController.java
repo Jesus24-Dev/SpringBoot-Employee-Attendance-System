@@ -5,6 +5,7 @@ import com.employeeasistance.employeeasistancemanagement.dtos.EmployeeRequest;
 import com.employeeasistance.employeeasistancemanagement.dtos.EmployeeResponse;
 import com.employeeasistance.employeeasistancemanagement.models.Employee;
 import com.employeeasistance.employeeasistancemanagement.services.EmployeeService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class EmployeeController {
     
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PostMapping
-    public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody EmployeeRequest employee){
+    public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody @Valid EmployeeRequest employee){
         Employee employeeCreated = employeeService.createEmployee(employee.getName(), employee.getEmail(), employee.getPosition());
         
         return ResponseEntity.status(HttpStatus.CREATED).body(new EmployeeResponse(employeeCreated));
@@ -56,7 +57,7 @@ public class EmployeeController {
     
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable UUID id, @RequestBody EmployeeRequest employee){
+    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable UUID id, @RequestBody @Valid EmployeeRequest employee){
         Employee employeeUpdated = employeeService.updateEmployee(id, employee.getName(), employee.getEmail(), employee.getPosition());
         
         return ResponseEntity.ok(new EmployeeResponse(employeeUpdated));

@@ -5,6 +5,7 @@ import com.employeeasistance.employeeasistancemanagement.dtos.AssistanceRequest;
 import com.employeeasistance.employeeasistancemanagement.dtos.AssistanceResponse;
 import com.employeeasistance.employeeasistancemanagement.models.Assistance;
 import com.employeeasistance.employeeasistancemanagement.services.AssistanceService;
+import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -57,15 +58,15 @@ public class AssistanceController {
     
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PostMapping
-    public ResponseEntity<Assistance> createAssistance(@RequestBody AssistanceRequest assistance){
+    public ResponseEntity<AssistanceResponse> createAssistance(@RequestBody @Valid AssistanceRequest assistance){
         Assistance assistanceCreated = assistanceService.createAssistance(assistance.getEmployeeId(), assistance.getDate(), assistance.getEntryTime(), assistance.getDepartureTime());
     
-        return ResponseEntity.status(HttpStatus.CREATED).body(assistanceCreated);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new AssistanceResponse(assistanceCreated));
     }
     
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PatchMapping("/departure/{id}")
-    public ResponseEntity<AssistanceResponse> setDepartureTime(@PathVariable UUID id, @RequestBody LocalTime departureTime){
+    public ResponseEntity<AssistanceResponse> setDepartureTime(@PathVariable UUID id, @Valid @RequestBody LocalTime departureTime){
         Assistance assistanceDepartureUpdated = assistanceService.setDepartureTime(id, departureTime);
     
         return ResponseEntity.ok(new AssistanceResponse(assistanceDepartureUpdated));
