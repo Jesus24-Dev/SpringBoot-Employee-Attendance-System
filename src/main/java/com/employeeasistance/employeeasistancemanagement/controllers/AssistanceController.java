@@ -49,6 +49,11 @@ public class AssistanceController {
         return ResponseEntity.ok(assistancesResponse);
     }
     
+    @GetMapping("/between/{startDate}/{finishDate}")
+    public ResponseEntity<List<AssistanceResponse>> getAllAssistancesBetweenDates(@PathVariable LocalDate startDate, @PathVariable LocalDate finishDate){
+        return ResponseEntity.ok(assistanceService.getAllAssistancesBetweenDates(startDate, finishDate).stream().map(AssistanceResponse::new).toList());
+    }
+    
     @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
     @PostMapping
     public ResponseEntity<Assistance> createAssistance(@RequestBody AssistanceRequest assistance){
