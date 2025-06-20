@@ -4,6 +4,7 @@ import com.employeeasistance.employeeasistancemanagement.models.Assistance;
 import com.employeeasistance.employeeasistancemanagement.models.Employee;
 import com.employeeasistance.employeeasistancemanagement.repositories.AssistanceRepository;
 import com.employeeasistance.employeeasistancemanagement.repositories.EmployeeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -28,9 +29,9 @@ public class AssistanceService {
     
     public List<Assistance> getAllAssistancesByEmployee(UUID employeeId){
         Employee employeeFounded = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new RuntimeException("Employee not found: " + employeeId));
+                .orElseThrow(() -> new IllegalArgumentException("Employee not found: " + employeeId));
         
-        return employeeFounded.getEmployeeAssistances();
+        return assistanceRepository.findAllByEmployee(employeeFounded);
     }
     
     public List<Assistance> getAllAssistancesByDate(LocalDate date){
@@ -46,10 +47,10 @@ public class AssistanceService {
     
     public Assistance createAssistance(UUID employeeId, LocalDate date, LocalTime entryTime, LocalTime departureTime){
         Employee employeeFounded = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new RuntimeException("Employee not found: " + employeeId));
+                .orElseThrow(() -> new EntityNotFoundException("Employee not found: " + employeeId));
         
         if(assistanceRepository.existsByDateAndEmployee(date, employeeFounded)){
-            throw new RuntimeException("There is a register with for this employee today");
+            throw new IllegalStateException("There is a register with for this employee today");
         }
         
         Assistance newAssistance = new Assistance();

@@ -13,4 +13,5 @@ public interface AssistanceRepository extends JpaRepository<Assistance, UUID>{
     List<Assistance> findByDate(LocalDate date);
     boolean existsByDateAndEmployee(LocalDate date, Employee employee);   
     List<Assistance> findByDateBetween(LocalDate startDate, LocalDate endDate);
+    List<Assistance> findAllByEmployee(Employee employee);
 }

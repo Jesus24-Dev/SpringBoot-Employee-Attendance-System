@@ -49,7 +49,7 @@ public class UserController {
         return ResponseEntity.ok(new UserResponse(user));
     }
     
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserRequest request){
         User userCreated = userService.createUser(request.getUsername(), request.getPassword(), request.getRole());
         

@@ -119,6 +119,15 @@ employeeasistancemanagement/
 
 ---
 
+## 🧪 Testing
+
+This project includes automated tests to ensure the stability and correctness of core features:
+
+- ✅ **Unit tests** for the service layer using JUnit 5 and Mockito.
+- ✅ **Integration tests** for the repository layer using H2 in-memory database and `@DataJpaTest`.
+
+---
+
 ## 📈 Future Improvements
 
 - Add password recovery flow
@@ -127,7 +136,6 @@ employeeasistancemanagement/
 - Structured error messages with HTTP statuses and codes
 
 ---
-
 
 ## 📌 License
 
