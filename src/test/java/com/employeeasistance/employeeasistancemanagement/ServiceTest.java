@@ -36,7 +36,12 @@ public class ServiceTest {
     
     @Test
     void shouldRegisterIfEmployeeExistsAndThereIsNoRegistration(){
-        Employee emp = new Employee(null, "STEFFANY GIL", "sttffgil@example.com", EmployeePosition.EMPLOYEE, true, new User());
+        Employee emp = new Employee(null,
+                "STEFFANY GIL",
+                "sttffgil@example.com",
+                EmployeePosition.EMPLOYEE,
+                true,
+                new User());
         
         when(employeeRepository.findById(emp.getId())).thenReturn(Optional.of(emp));
         when(assistanceRepository.existsByDateAndEmployee(LocalDate.now(), emp)).thenReturn(false);
