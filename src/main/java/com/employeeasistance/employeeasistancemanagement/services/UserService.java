@@ -40,15 +40,26 @@ public class UserService {
         userToSave.setRole(role);
         
         return userRepository.save(userToSave);
-    }
+    }    
     
-    public User updateUser(UUID id, String username, String password, UserRoles role){
+    public User updateUserUsername(UUID id, String username){
         User userToUpdate = getUserById(id);
         
-        userToUpdate.setUsername(username);
-        userToUpdate.setPassword(passwordEncoder.encode(password));
-        userToUpdate.setRole(role);
+        userToUpdate.setUsername(username);       
+        return userRepository.save(userToUpdate);
+    }
+    
+    public User updateUserPassword(UUID id, String password){
+        User userToUpdate = getUserById(id);
         
+        userToUpdate.setPassword(passwordEncoder.encode(password));     
+        return userRepository.save(userToUpdate);
+    }
+    
+    public User updateUserRole(UUID id, UserRoles role){
+        User userToUpdate = getUserById(id);
+        
+        userToUpdate.setRole(role);      
         return userRepository.save(userToUpdate);
     }
     
