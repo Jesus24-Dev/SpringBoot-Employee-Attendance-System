@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,5 +71,29 @@ public class AssistanceController {
         Assistance assistanceDepartureUpdated = assistanceService.setDepartureTime(id, departureTime);
     
         return ResponseEntity.ok(new AssistanceResponse(assistanceDepartureUpdated));
+    }
+    
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
+    @PatchMapping("/update/date/{id}")
+    public ResponseEntity<AssistanceResponse> updateDate(@PathVariable UUID id, @Valid @RequestBody LocalDate date){
+        Assistance assistanceDepartureUpdated = assistanceService.updateAssistanceDate(id, date);
+    
+        return ResponseEntity.ok(new AssistanceResponse(assistanceDepartureUpdated));
+    }
+    
+    @PreAuthorize("hasAnyRole('ADMIN', 'EMPLOYEE')")
+    @PatchMapping("/update/entry-time/{id}")
+    public ResponseEntity<AssistanceResponse> updateEntryTime(@PathVariable UUID id, @Valid @RequestBody LocalTime entryTime){
+        Assistance assistanceDepartureUpdated = assistanceService.updateAssistanceEntryTime(id, entryTime);
+    
+        return ResponseEntity.ok(new AssistanceResponse(assistanceDepartureUpdated));
+    }
+    
+    @PreAuthorize("hasRole('EMPLOYEE')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAssistance(@PathVariable UUID id){
+        assistanceService.deleteAssistance(id);
+        
+        return ResponseEntity.noContent().build();
     }
 }
