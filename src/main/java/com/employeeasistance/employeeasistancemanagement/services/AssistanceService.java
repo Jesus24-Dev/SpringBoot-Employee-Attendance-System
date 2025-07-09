@@ -63,23 +63,30 @@ public class AssistanceService {
         assistanceRepository.save(newAssistance);       
         return newAssistance;
     }
-    
-    public Assistance updateAssistance(UUID id, LocalDate date, LocalTime entryTime, LocalTime departureTime){
+      
+    public Assistance updateAssistanceDate(UUID id, LocalDate date){
         Assistance assistanceFounded = assistanceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
+                .orElseThrow(() -> new RuntimeException("Assistance not found: " + id));
         
         assistanceFounded.setDate(date);
-        assistanceFounded.setEntryTime(entryTime);
-        assistanceFounded.setDepartureTime(departureTime);
         
-        assistanceRepository.save(assistanceFounded);
-        
+        assistanceRepository.save(assistanceFounded);   
         return assistanceFounded;
     }
     
+    public Assistance updateAssistanceEntryTime(UUID id, LocalTime entryTime){
+        Assistance assistanceFounded = assistanceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Assistance not found: " + id));
+        
+        assistanceFounded.setEntryTime(entryTime);
+        
+        assistanceRepository.save(assistanceFounded);   
+        return assistanceFounded;
+    }   
+    
     public Assistance setDepartureTime(UUID id, LocalTime departureTime){
         Assistance assistanceFounded = assistanceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
+                .orElseThrow(() -> new RuntimeException("Assistance not found: " + id));
         
         assistanceFounded.setDepartureTime(departureTime);
         assistanceRepository.save(assistanceFounded);
@@ -89,7 +96,7 @@ public class AssistanceService {
     
     public void deleteAssistance(UUID id){
         Assistance assistanceFounded = assistanceRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
+                .orElseThrow(() -> new RuntimeException("Assistance not found: " + id));
         
         assistanceRepository.delete(assistanceFounded);
     }

@@ -63,14 +63,28 @@ public class EmployeeService {
         
         return employeeRepository.save(employeeCreated);
     }
-    
-    public Employee updateEmployee(UUID id, String name, String email, EmployeePosition position){
+      
+    public Employee updateEmployeeName(UUID id, String name){
         Employee employeeFounded = employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
-        
         employeeFounded.setName(name);
+        
+        return employeeRepository.save(employeeFounded);
+    }
+    
+    public Employee updateEmployeeEmail(UUID id, String email){
+        Employee employeeFounded = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
         employeeFounded.setEmail(email);
+        
+        return employeeRepository.save(employeeFounded);
+    }
+    
+    public Employee updateEmployeePosition(UUID id, EmployeePosition position){
+        Employee employeeFounded = employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found: " + id));
         employeeFounded.setPosition(position);  
+        
         return employeeRepository.save(employeeFounded);
     }
     
