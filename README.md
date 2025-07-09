@@ -97,6 +97,9 @@ employeeasistancemanagement/
 - `GET /user/{id}` – Get user by ID
 - `POST /user` – Create new user
 - `PUT /user/{id}` – Update user
+- `PATCH /user/update/username/{id}` – Update user username for a given user record.
+- `PATCH /user/update/password/{id}` – Update user password for a given user record.
+- `PATCH /user/update/role/{id}` – Update user role for a given user record.
 - `DELETE /user/{id}` – Soft delete (disable) user
 
 ---
@@ -106,6 +109,9 @@ employeeasistancemanagement/
 - `GET /employee/{id}` – Get employee data by ID
 - `POST /employee` – Register employee data for current user
 - `PUT /employee/{id}` – Update employee
+- `PATCH /employee/update/name/{id}` – Update employee name for a given employee record.
+- `PATCH /employee/update/email/{id}` – Update employee email for a given employee record.
+- `PATCH /employee/update/position/{id}` – Update employee position for a given employee record.
 - `DELETE /employee/{id}` – Delete employee
 
 ---
@@ -116,6 +122,9 @@ employeeasistancemanagement/
 - `GET /assistance/between/{startDate}/{finishDate}` – Get assistances between two dates
 - `POST /assistance` – Register a new assistance (entry)
 - `PATCH /assistance/departure/{id}` – Update departure time for a given assistance record
+- `PATCH /assistance/update/date/{id}` - Update date for a given assistance record
+- `PATCH /assistance/update/entry-time/{id}` - Update entry time for a given assistance record
+- `DELETE /assistance/{id}` – Delete a given assistance record
 
 ---
 
@@ -131,7 +140,7 @@ This project includes automated tests to ensure the stability and correctness of
 ## 📈 Future Improvements
 
 - Add password recovery flow
-- Partial field updates (PATCH) for all models
+- Partial field updates (PATCH) for all models (✅07/09/25)
 - Custom attendance reports in PDF/Excel
 - Structured error messages with HTTP statuses and codes
 
